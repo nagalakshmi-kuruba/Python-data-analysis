@@ -1,24 +1,23 @@
 import pandas as pd
-
 data = pd.read_csv("sales_data.csv")
-
 data["Sales"] = data["Quantity"] * data["Price"]
-
 total_sales = data["Sales"].sum()
-
 print("Total Sales:", total_sales)
 product_sales = data.groupby("Product")["Sales"].sum()
-
 print("\nSales by Product:")
 print(product_sales)
+best_product = product_sales.idxmax()
+best_sales = product_sales.max()
+print("\nBest-selling Product:", best_product)
+print("Best Product Sales:", best_sales)
+average_sales = data["Sales"].mean()
+print("Average Sales:", average_sales)
+print("Number of Records:", len(data))
 import matplotlib.pyplot as plt
-
-product_sales.plot(kind="bar")
-
+product_sales.sort_values(ascending=False).plot(kind="bar", figsize=(8, 5))
 plt.title("Sales by Product")
 plt.xlabel("Product")
 plt.ylabel("Sales")
-
 plt.tight_layout()
 plt.savefig("sales_by_product.png")
 plt.show()
